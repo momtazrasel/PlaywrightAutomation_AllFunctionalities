@@ -12,6 +12,7 @@ public class PlaywrightBasic {
         Page page = browser.newPage();
         page.navigate("https://www.amazon.com/");
         System.out.println(page.title());
+        page.close();
     }
 
 }

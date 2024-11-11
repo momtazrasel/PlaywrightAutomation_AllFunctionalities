@@ -20,7 +20,8 @@ public class PlaywrightBasic {
         String url = page.url();
         System.out.println(url);
         browser.close();
-        playwright.close();
+
+
 
     }
 

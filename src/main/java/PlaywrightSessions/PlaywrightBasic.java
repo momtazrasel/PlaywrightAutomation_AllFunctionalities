@@ -15,10 +15,11 @@ public class PlaywrightBasic {
 
         Browser browser = playwright.chromium().launch(lp);
         Page page = browser.newPage();
-        page.navigate("https://www.amazon.com/");
+        page.navigate("https://demoqa.com/");
         System.out.println(page.title());
         String url = page.url();
         System.out.println(url);
+
         browser.close();
 
 

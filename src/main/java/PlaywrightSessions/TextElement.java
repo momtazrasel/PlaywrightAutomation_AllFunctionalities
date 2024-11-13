@@ -24,6 +24,16 @@ public class TextElement {
             page.locator("#permanentAddress").click();
             page.locator("#permanentAddress").fill("Do");
             page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Submit")).click();
+
+            //Checkbox - Automation
+            page.locator("li").filter(new Locator.FilterOptions().setHasText("Check Box")).click();
+            page.getByLabel("Toggle").click();
+            page.locator("label").filter(new Locator.FilterOptions().setHasText("Home")).getByRole(AriaRole.IMG).first().click();
+            page.locator("label").filter(new Locator.FilterOptions().setHasText("Home")).locator("path").first().click();
+            page.getByLabel("Expand all").click();
+            page.locator("label").filter(new Locator.FilterOptions().setHasText("Home")).locator("path").first().click();
+            page.locator("label").filter(new Locator.FilterOptions().setHasText("Documents")).getByRole(AriaRole.IMG).first().click();
+
         }
     }
 }

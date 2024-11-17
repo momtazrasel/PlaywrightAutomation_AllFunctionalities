@@ -4,6 +4,7 @@ import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.MouseButton;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,57 +35,47 @@ public class DropdownText {
             page.waitForTimeout(5000);
 
             page.waitForSelector("//div[@class = 'ant-select-item-option-content']");
-            Set<String> dropdownValues = new HashSet<>();
-            while (true) {
-                String currentOption = page.locator("//div[@class = 'ant-select-item ant-select-item-option ant-select-item-option-active']").first().textContent();
-                System.out.println(currentOption);
+//            Set<String> dropdownValues = new HashSet<>();
+//            String [] currentOption;
+            List<String> currentOptions = new ArrayList<>();
+            String firstOption = null;
+//            while (true) {
+//                for (int i = 0; i <= 10; i++) {
+//                    String currentOption = page.locator("//div[@class = 'ant-select-item ant-select-item-option ant-select-item-option-active']").textContent();
+//                    currentOptions.add(currentOption);
+//                    System.out.println(currentOption);
+//                    page.waitForTimeout(2000);
+//                    page.keyboard().press("ArrowDown");
+//                    page.waitForTimeout(2000);
+////                }
+//            }
+
+            for (int i = 0;; i++) { // Infinite for-loop with dynamic break condition
+                // Fetch the currently active dropdown value
+                String currentOption = page.locator("//div[@class = 'ant-select-item ant-select-item-option ant-select-item-option-active']").textContent();
+
+                // Store the first option and print it
+                if (firstOption == null) {
+                    firstOption = currentOption; // Store the first option
+                } else if (currentOption.equals(firstOption)) {
+                    // Break the loop if we cycle back to the first option
+                    break;
+                }
+
+                // Add the current option to the list if not already present
+                if (!currentOptions.contains(currentOption)) {
+                    currentOptions.add(currentOption);
+//                    System.out.println(currentOption); // Print the option
+                }
+
+                // Scroll to the next option
                 page.keyboard().press("ArrowDown");
-                page.waitForTimeout(2000);
-                System.out.println(currentOption);
-
-
-                String highlightedOption = page.locator("(//div[contains(text(),'00 Calibration Gateway')])[1]").textContent();
-                if (highlightedOption != null && dropdownValues.add(highlightedOption)) {
-                    System.out.println(highlightedOption);
-                }
-                for(int i=0; i<=100; i++){
-                    page.keyboard().press("ArrowDown");
-                    System.out.println(i);
-                }
-
-                page.waitForTimeout(200);
-                String lastOption = page.locator("(//div[@class='ant-select-item-option-content'])[last()]").textContent();
-                if (dropdownValues.contains(lastOption)) {
-                    break; // Exit the loop once the last option is reached
-                }
-
-                // Get the current number of elements
-                int currentOptionsCount = page.locator("//div[@class = 'ant-select-item-option-content']").count();
-                System.out.println("Number of elements: "+ currentOptionsCount);
-
-                // Scroll to the last visible option
-                page.locator("div.dropdown-option:last-child").scrollIntoViewIfNeeded();
-
-                // Wait for a short period to allow new options to load
-                page.waitForTimeout(500);
-
-                // Check if more options have been loaded
-                int updatedOptionsCount = page.locator("div.dropdown-option").count();
-                if (updatedOptionsCount == currentOptionsCount) {
-                    break; // Exit the loop if no new options are loaded
-                }
+                page.waitForTimeout(100); // Wait for the dropdown UI to update
             }
 
-            // Get all dropdown values
-//            List<String> dropdownValues = page.locator("div.dropdown-option").allTextContents();
-
-            // Print all values
-            for (String value : dropdownValues) {
-                System.out.println(value);
-            }
-
-            // Close the browser
-            browser.close();
+            System.out.println("Total dropdown options: " + currentOptions.size());
+            System.out.println("All dropdown options: " + currentOptions);
+        }
         }
     }
-}
+

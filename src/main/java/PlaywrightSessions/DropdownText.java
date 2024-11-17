@@ -18,6 +18,7 @@ public class DropdownText {
             BrowserContext context = browser.newContext();
             Page page = context.newPage();
             page.navigate("https://stage.portal.denowatts.com/signin");
+            page.waitForTimeout(5000);
             page.getByLabel("Email").click();
             page.getByLabel("Email").fill("apps@niftyitsolution.com");
             page.getByLabel("Password").click();
@@ -35,6 +36,13 @@ public class DropdownText {
             page.waitForSelector("//div[@class = 'ant-select-item-option-content']");
             Set<String> dropdownValues = new HashSet<>();
             while (true) {
+                String currentOption = page.locator("//div[@class = 'ant-select-item ant-select-item-option ant-select-item-option-active']").first().textContent();
+                System.out.println(currentOption);
+                page.keyboard().press("ArrowDown");
+                page.waitForTimeout(2000);
+                System.out.println(currentOption);
+
+
                 String highlightedOption = page.locator("(//div[contains(text(),'00 Calibration Gateway')])[1]").textContent();
                 if (highlightedOption != null && dropdownValues.add(highlightedOption)) {
                     System.out.println(highlightedOption);

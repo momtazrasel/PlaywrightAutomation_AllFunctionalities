@@ -37,6 +37,7 @@ public class DropdownText {
             page.waitForSelector("//div[@class = 'ant-select-item-option-content']");
 //            Set<String> dropdownValues = new HashSet<>();
 //            String [] currentOption;
+            List<String> expectedOptions = TestData.getExpectedOptions();
             List<String> currentOptions = new ArrayList<>();
             String firstOption = null;
 //            while (true) {
@@ -75,6 +76,16 @@ public class DropdownText {
 
             System.out.println("Total dropdown options: " + currentOptions.size());
             System.out.println("All dropdown options: " + currentOptions);
+
+            if (currentOptions.containsAll(expectedOptions)) {
+                System.out.println("All expected dropdown values are available.");
+            } else {
+                // Identify missing options
+                List<String> missingOptions = new ArrayList<>(expectedOptions);
+                missingOptions.removeAll(currentOptions);
+                System.out.println("Some expected dropdown values are missing: " + missingOptions);
+            }
+
         }
         }
     }

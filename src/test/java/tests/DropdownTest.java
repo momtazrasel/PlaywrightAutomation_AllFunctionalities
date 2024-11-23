@@ -13,13 +13,21 @@ public class DropdownTest extends BaseTest {
 
     @Test
     void testDropdownOptions() {
+//        DropdownPage dropdownPage = new DropdownPage(page);
+//
+//        List<String> actualOptions = dropdownPage.getAllDropdownOptions();
+//        List<String> expectedOptions = TestData.getExpectedOptions();
+//
+//        assertTrue(actualOptions.containsAll(expectedOptions), "All expected dropdown values should be present.");
+
+
         DropdownPage dropdownPage = new DropdownPage(page);
 
-        // Test dropdown options after login
-        List<String> actualOptions = dropdownPage.getAllDropdownOptions();
+        // Get expected options
         List<String> expectedOptions = TestData.getExpectedOptions();
 
-        assertTrue(actualOptions.containsAll(expectedOptions), "All expected dropdown values should be present.");
+        // Assert dropdown options
+        dropdownPage.assertDropdownOptions(expectedOptions);
     }
 
     @Test

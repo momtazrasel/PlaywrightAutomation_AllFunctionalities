@@ -22,25 +22,49 @@ public class DropdownPage extends BasePage {
 
         page.click(siteSelectorButton);
         page.click(siteDropdown);
-        List<String> options = new ArrayList<>();
+        List<String> currentOptions = new ArrayList<>();
         String firstOption = null;
 
         for (int i = 0; ; i++) {
+            // Fetch the currently active dropdown value
             String currentOption = page.locator(activeOptionSelector).textContent();
 
             if (firstOption == null) {
-                firstOption = currentOption;
+                firstOption = currentOption; // Store the first option
             } else if (currentOption.equals(firstOption)) {
-                break;
+                break; // Exit loop if we cycle back to the first option
             }
 
-            if (!options.contains(currentOption)) {
-                options.add(currentOption);
+            if (!currentOptions.contains(currentOption)) {
+                currentOptions.add(currentOption);
+
+                System.out.println(currentOption);
             }
 
+            // Move to the next option
             page.keyboard().press("ArrowDown");
+            page.locator(activeOptionSelector).waitFor();
         }
 
-        return options;
+        System.out.println("Total dropdown options: " + currentOptions.size());
+        return currentOptions;
+    }
+
+
+    public void assertDropdownOptions(List<String> expectedOptions) {
+        List<String> actualOptions = getAllDropdownOptions();
+
+        // Print all dropdown options
+        System.out.println("Dropdown Options:");
+        for (String option : actualOptions) {
+            System.out.println(option);
+        }
+
+        // Assert and report missing options
+        if (!actualOptions.containsAll(expectedOptions)) {
+            List<String> missingOptions = new ArrayList<>(expectedOptions);
+            missingOptions.removeAll(actualOptions);
+            throw new AssertionError("Some expected dropdown values are missing: " + missingOptions);
+        }
     }
 }

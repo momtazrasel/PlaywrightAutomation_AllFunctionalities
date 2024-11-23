@@ -9,6 +9,8 @@ import java.util.List;
 public class DropdownPage extends BasePage {
     private final String dropdownSelector = "//div[@class = 'ant-select-item-option-content']";
     private final String activeOptionSelector = "//div[@class = 'ant-select-item ant-select-item-option ant-select-item-option-active']";
+    private final String siteSelectorButton = "(//a[@href='/site'])[1]";
+    private final String siteDropdown = "(//input[@class  = 'ant-select-selection-search-input'])[1]";
 
 
     public DropdownPage(Page page) {
@@ -16,6 +18,10 @@ public class DropdownPage extends BasePage {
     }
 
     public List<String> getAllDropdownOptions() {
+
+
+        page.click(siteSelectorButton);
+        page.click(siteDropdown);
         List<String> options = new ArrayList<>();
         String firstOption = null;
 

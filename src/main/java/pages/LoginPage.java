@@ -4,9 +4,9 @@ import base.BasePage;
 import com.microsoft.playwright.Page;
 
 public class LoginPage extends BasePage {
-    private final String emailInput = "input[label='Email']";
-    private final String passwordInput = "input[label='Password']";
-    private final String loginButton = "button:has-text('Login')";
+    private final String emailInput = "//input[@id='email']";
+    private final String passwordInput = "//input[@id='password']";
+    private final String loginButton = "//button[normalize-space()='Login']";
 
     public LoginPage(Page page){
         super(page);
@@ -16,6 +16,7 @@ public class LoginPage extends BasePage {
         page.fill(emailInput, email);
         page.fill(passwordInput, password);
         page.click(loginButton);
+        page.waitForTimeout(5000);
     }
 
 }

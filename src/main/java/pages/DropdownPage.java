@@ -63,6 +63,7 @@ public class DropdownPage extends BasePage {
         // Assert and report missing options
         if (!actualOptions.containsAll(expectedOptions)) {
             List<String> missingOptions = new ArrayList<>(expectedOptions);
+            System.out.println(missingOptions);
             missingOptions.removeAll(actualOptions);
             throw new AssertionError("Some expected dropdown values are missing: " + missingOptions);
         }

@@ -28,6 +28,7 @@ public class DropdownTest extends BaseTest {
 
         // Assert dropdown options
         dropdownPage.assertDropdownOptions(expectedOptions);
+        dropdownPage.assertDropdownOptions(expectedOptions);
     }
 
     @Test

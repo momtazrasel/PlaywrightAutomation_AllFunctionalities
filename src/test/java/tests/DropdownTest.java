@@ -15,12 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DropdownTest extends BaseTest {
 
-    private ExtentTest test;
+//    private ExtentTest test;
 
-    @BeforeClass
-    public void setup() {
-        ExtentManager.initReports();
-    }
+//    @BeforeClass
+//    public void setup() {
+//        ExtentManager.initReports();
+//    }
 
     @Test
     void testDropdownOptions() {
@@ -31,7 +31,7 @@ public class DropdownTest extends BaseTest {
 //
 //        assertTrue(actualOptions.containsAll(expectedOptions), "All expected dropdown values should be present.");
 
-        test.info("Dropdown Test");
+//        test.info("Dropdown Test");
 
         DropdownPage dropdownPage = new DropdownPage(page);
 
@@ -49,8 +49,8 @@ public class DropdownTest extends BaseTest {
         System.out.println("Another test case running after login..."); 
     }
 
-    @AfterClass
-    public void tearDown() {
-        ExtentManager.flushReports();
-    }
+//    @AfterClass
+//    public void tearDown() {
+//        ExtentManager.flushReports();
+//    }
 }

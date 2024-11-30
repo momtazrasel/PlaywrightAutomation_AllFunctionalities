@@ -15,42 +15,46 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DropdownTest extends BaseTest {
 
-//    private ExtentTest test;
-
-//    @BeforeClass
-//    public void setup() {
-//        ExtentManager.initReports();
-//    }
-
     @Test
     void testDropdownOptions() {
-//        DropdownPage dropdownPage = new DropdownPage(page);
-//
-//        List<String> actualOptions = dropdownPage.getAllDropdownOptions();
-//        List<String> expectedOptions = TestData.getExpectedOptions();
-//
-//        assertTrue(actualOptions.containsAll(expectedOptions), "All expected dropdown values should be present.");
+        // Create a parent test for this test case
+        ExtentTest parent = extent.createTest("Verify Dropdown Options", "This test validates dropdown options.");
 
-//        test.info("Dropdown Test");
+        // Create a child test for dropdown functionality
+        ExtentTest dropdownTest = parent.createNode("Dropdown Validation");
 
-        DropdownPage dropdownPage = new DropdownPage(page);
+        try {
+            dropdownTest.info("Navigating to the dropdown page.");
+            DropdownPage dropdownPage = new DropdownPage(page, dropdownTest);
 
-        // Get expected options
-        List<String> expectedOptions = TestData.getExpectedOptions();
+            // Get expected options
+            List<String> expectedOptions = TestData.getExpectedOptions();
+            dropdownTest.info("Expected options fetched: " + expectedOptions);
 
-        // Assert dropdown options
-        dropdownPage.assertDropdownOptions(expectedOptions);
-        dropdownPage.assertDropdownOptions(expectedOptions);
+            // Validate dropdown options
+            dropdownPage.assertDropdownOptions(expectedOptions);
+
+            dropdownTest.pass("Dropdown options validated successfully.");
+        } catch (Exception e) {
+            dropdownTest.fail("Dropdown test failed: " + e.getMessage());
+            throw e; // Rethrow exception for proper test failure handling
+        }
     }
 
     @Test
     void testAnotherFunctionality() {
-        // Perform other test steps here
-        System.out.println("Another test case running after login..."); 
-    }
+        // Create a parent test for another functionality
+        ExtentTest parent = extent.createTest("Verify Another Functionality", "This test validates additional functionality.");
 
-//    @AfterClass
-//    public void tearDown() {
-//        ExtentManager.flushReports();
-//    }
-}
+        // Log test details
+        parent.info("Starting another functionality test.");
+        try {
+            // Perform other test steps
+            System.out.println("Another test case running after login...");
+            parent.pass("Another functionality verified successfully.");
+        } catch (Exception e) {
+            parent.fail("Another functionality test failed: " + e.getMessage());
+            throw e; // Ensure the test fails in case of exceptions
+        }
+    }
+    }

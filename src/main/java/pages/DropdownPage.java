@@ -3,7 +3,7 @@ package pages;
 import base.BasePage;
 import com.aventstack.extentreports.ExtentTest;
 import com.microsoft.playwright.Page;
-
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,31 +20,41 @@ public class DropdownPage extends BasePage {
         this.test = test;
     }
 
+    private void attachScreenshot(String stepName) {
+        try {
+            String screenshotPath = "screenshots/" + stepName.replaceAll("\\s+", "_") + ".png";
+            page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get(screenshotPath)).setFullPage(true));
+            test.addScreenCaptureFromPath(screenshotPath, stepName);
+        } catch (Exception e) {
+            test.warning("Failed to capture screenshot: " + e.getMessage());
+        }
+    }
+
     public List<String> getAllDropdownOptions() {
         test.info("Opening dropdown menu...");
+        attachScreenshot("Opening Dropdown Menu");
         page.click(siteSelectorButton);
         page.click(siteDropdown);
+
         List<String> currentOptions = new ArrayList<>();
         String firstOption = null;
 
         test.info("Fetching dropdown options...");
         for (int i = 0; ; i++) {
             try {
-                // Fetch the currently active dropdown value
                 String currentOption = page.locator(activeOptionSelector).textContent();
-
                 if (firstOption == null) {
-                    firstOption = currentOption; // Store the first option
+                    firstOption = currentOption;
                 } else if (currentOption.equals(firstOption)) {
-                    break; // Exit loop if we cycle back to the first option
+                    break;
                 }
 
                 if (!currentOptions.contains(currentOption)) {
                     currentOptions.add(currentOption);
                     test.info("Found option: " + currentOption);
+                    attachScreenshot("Found Option " + currentOption);
                 }
 
-                // Move to the next option
                 page.keyboard().press("ArrowDown");
                 page.locator(activeOptionSelector).waitFor();
             } catch (Exception e) {
@@ -54,24 +64,26 @@ public class DropdownPage extends BasePage {
         }
 
         test.info("Total dropdown options fetched: " + currentOptions.size());
+        attachScreenshot("Total Dropdown Options");
         return currentOptions;
     }
 
     public void assertDropdownOptions(List<String> expectedOptions) {
         test.info("Starting dropdown options validation...");
-        List<String> actualOptions = getAllDropdownOptions();
+        attachScreenshot("Before Dropdown Validation");
 
-        // Log all dropdown options
+        List<String> actualOptions = getAllDropdownOptions();
         test.info("Actual dropdown options: " + actualOptions);
 
-        // Assert and report missing options
         if (!actualOptions.containsAll(expectedOptions)) {
             List<String> missingOptions = new ArrayList<>(expectedOptions);
             missingOptions.removeAll(actualOptions);
             test.fail("Some expected dropdown values are missing: " + missingOptions);
+            attachScreenshot("Validation Failed");
             throw new AssertionError("Missing dropdown options: " + missingOptions);
         }
 
         test.pass("Dropdown options validation passed successfully!");
+        attachScreenshot("Validation Passed");
     }
 }

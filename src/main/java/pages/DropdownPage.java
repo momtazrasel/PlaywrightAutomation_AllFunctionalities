@@ -3,6 +3,8 @@ package pages;
 import base.BasePage;
 import com.aventstack.extentreports.ExtentTest;
 import com.microsoft.playwright.Page;
+
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +24,17 @@ public class DropdownPage extends BasePage {
 
     private void attachScreenshot(String stepName) {
         try {
-            String screenshotPath = "screenshots/" + stepName.replaceAll("\\s+", "_") + ".png";
+            // Create the screenshots directory if it doesn't exist
+            String screenshotDir = "reports/screenshots/";
+            Files.createDirectories(Paths.get(screenshotDir));
+
+            // Define screenshot file name and path
+            String screenshotPath = screenshotDir + stepName.replaceAll("\\s+", "_") + ".png";
+
+            // Capture screenshot
             page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get(screenshotPath)).setFullPage(true));
+
+            // Attach screenshot to Extent Report
             test.addScreenCaptureFromPath(screenshotPath, stepName);
         } catch (Exception e) {
             test.warning("Failed to capture screenshot: " + e.getMessage());

@@ -42,8 +42,8 @@ public class BracUBaseLogin {
         // Perform login
         test.info("Logging in...");
         LoginPage loginPage = new LoginPage(page);
-        loginPage.navigateTo("https://stage.portal.denowatts.com/signin");
-        loginPage.login("apps@niftyitsolution.com", "f@]+yN!ogbCFE\"pi33");
+        loginPage.navigateTo("https://bracuerp-qa.apsissolutions.com/signin");
+        loginPage.login("admin", "123456");
         test.pass("Login successful");
     }
 

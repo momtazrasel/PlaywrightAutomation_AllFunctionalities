@@ -8,7 +8,7 @@ public class BracUloginTest extends BracUBaseLogin {
     @Test
     void testLogin() {
         LoginPage loginPage = new LoginPage(page);
-        loginPage.navigateTo("https://stage.portal.denowatts.com/signin");
-        loginPage.login("apps@niftyitsolution.com", "f@]+yN!ogbCFE\"pi33");
+        loginPage.navigateTo("https://bracuerp-qa.apsissolutions.com/signin");
+        loginPage.login("admin", "123456");
 }
 }

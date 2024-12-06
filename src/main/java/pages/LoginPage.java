@@ -6,7 +6,7 @@ import com.microsoft.playwright.Page;
 public class LoginPage extends BasePage {
     private final String emailInput = "//input[@id='email']";
     private final String passwordInput = "//input[@id='password']";
-    private final String loginButton = "//button[normalize-space()='Login']";
+    private final String loginButton = "//button[normalize-space()='Log in']";
 
     public LoginPage(Page page){
         super(page);
